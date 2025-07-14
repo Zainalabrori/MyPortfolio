@@ -55,7 +55,7 @@ class PortfolioApp {
         if (!container) return;
 
         console.log('Rendering skills section');
-        
+
         container.innerHTML = portfolioData.skills.map(category => `
             <div class="bg-white rounded-lg shadow-lg p-6 transform hover:scale-105 transition-all duration-300">
                 <div class="flex items-center mb-4">
@@ -88,7 +88,7 @@ class PortfolioApp {
         if (!container) return;
 
         console.log('Rendering projects section');
-        
+
         container.innerHTML = portfolioData.projects.map(project => `
             <div class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition-all duration-300 project-card">
                 <div class="relative overflow-hidden group">
@@ -130,7 +130,7 @@ class PortfolioApp {
         if (!container) return;
 
         console.log('Rendering experience section');
-        
+
         container.innerHTML = portfolioData.experience.map((job, index) => `
             <div class="relative experience-item mb-12">
                 <div class="absolute left-0 top-0 w-4 h-4 bg-blue-600 rounded-full z-10"></div>
@@ -158,8 +158,8 @@ class PortfolioApp {
                         `).join('')}
                     </div>
                 </div>
-                ${index < portfolioData.experience.length - 1 ? 
-                    '<div class="absolute left-2 top-4 bottom-0 w-0.5 bg-gray-300"></div>' : ''}
+                ${index < portfolioData.experience.length - 1 ?
+                '<div class="absolute left-2 top-4 bottom-0 w-0.5 bg-gray-300"></div>' : ''}
             </div>
         `).join('');
     }
@@ -199,12 +199,12 @@ class PortfolioApp {
         if (element) {
             const offset = 80; // Account for fixed navbar
             const elementPosition = element.offsetTop - offset;
-            
+
             window.scrollTo({
                 top: elementPosition,
                 behavior: 'smooth'
             });
-            
+
             console.log('Scrolled to section:', sectionId);
         }
     }
@@ -214,7 +214,7 @@ class PortfolioApp {
             link.classList.remove('text-blue-600', 'border-b-2', 'border-blue-600');
             link.classList.add('text-gray-700');
         });
-        
+
         activeLink.classList.remove('text-gray-700');
         activeLink.classList.add('text-blue-600', 'border-b-2', 'border-blue-600');
     }
@@ -222,23 +222,23 @@ class PortfolioApp {
     handleScrollSpy() {
         const sections = document.querySelectorAll('section[id]');
         const navLinks = document.querySelectorAll('.nav-link');
-        
+
         let currentSection = '';
         const offset = 100;
-        
+
         sections.forEach(section => {
             const sectionTop = section.offsetTop - offset;
             const sectionHeight = section.clientHeight;
-            
+
             if (window.scrollY >= sectionTop && window.scrollY < sectionTop + sectionHeight) {
                 currentSection = section.getAttribute('id');
             }
         });
-        
+
         navLinks.forEach(link => {
             link.classList.remove('text-blue-600', 'border-b-2', 'border-blue-600');
             link.classList.add('text-gray-700');
-            
+
             if (link.getAttribute('href').substring(1) === currentSection) {
                 link.classList.remove('text-gray-700');
                 link.classList.add('text-blue-600', 'border-b-2', 'border-blue-600');
@@ -249,13 +249,13 @@ class PortfolioApp {
     setupMobileMenu() {
         const mobileMenuBtn = document.getElementById('mobileMenuBtn');
         const mobileMenu = document.getElementById('mobileMenu');
-        
+
         if (mobileMenuBtn && mobileMenu) {
             mobileMenuBtn.addEventListener('click', () => {
                 mobileMenu.classList.toggle('hidden');
                 console.log('Mobile menu toggled');
             });
-            
+
             // Close mobile menu when clicking on links
             mobileMenu.querySelectorAll('a').forEach(link => {
                 link.addEventListener('click', () => {
@@ -269,46 +269,52 @@ class PortfolioApp {
         const contactForm = document.getElementById('contactForm');
         if (!contactForm) return;
 
-        contactForm.addEventListener('submit', (e) => {
-            // e.preventDefault();
-            
-            const formData = {
-                name: document.getElementById('name').value,
-                email: document.getElementById('email').value,
-                message: document.getElementById('message').value
-            };
-            
-            console.log('Contact form submitted:', formData);
-            
-            // Simulate form submission
-            this.showNotification('Message sent successfully!', 'success');
-            contactForm.reset();
+        contactForm.addEventListener('submit', async (e) => {
+            e.preventDefault(); // ✅ prevent redirect
+
+            const formData = new FormData(contactForm);
+            formData.append('_captcha', 'false'); // ✅ optional but ensures consistent result
+
+            try {
+                const res = await fetch('https://formsubmit.co/ajax/3d84d6b7025d2330db7081921831878a', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (res.ok) {
+                    this.showNotification('Message sent successfully!', 'success');
+                    contactForm.reset();
+                } else {
+                    this.showNotification('Failed to send message.', 'error');
+                }
+            } catch (err) {
+                this.showNotification('Error: ' + err.message, 'error');
+            }
         });
     }
 
     showNotification(message, type = 'info') {
         const notification = document.createElement('div');
-        notification.className = `fixed top-4 right-4 z-50 px-6 py-4 rounded-lg shadow-lg text-white transform transition-all duration-300 ${
-            type === 'success' ? 'bg-green-600' : 
-            type === 'error' ? 'bg-red-600' : 
-            'bg-blue-600'
-        }`;
+        notification.className = `fixed top-4 right-4 z-50 px-6 py-4 rounded-lg shadow-lg text-white transform transition-all duration-300 ${type === 'success' ? 'bg-green-600' :
+                type === 'error' ? 'bg-red-600' :
+                    'bg-blue-600'
+            }`;
         notification.textContent = message;
         notification.style.transform = 'translateX(100%)';
-        
+
         document.body.appendChild(notification);
-        
+
         setTimeout(() => {
             notification.style.transform = 'translateX(0)';
         }, 100);
-        
+
         setTimeout(() => {
             notification.style.transform = 'translateX(100%)';
             setTimeout(() => {
                 document.body.removeChild(notification);
             }, 300);
         }, 3000);
-        
+
         console.log('Notification shown:', message, type);
     }
 
@@ -331,7 +337,7 @@ class PortfolioApp {
         // Observe elements for animation
         const animateElements = document.querySelectorAll('.project-card, .experience-item, .skill-item');
         animateElements.forEach(el => observer.observe(el));
-        
+
         console.log('Animations setup complete');
     }
 
@@ -364,11 +370,11 @@ class PortfolioApp {
     measurePerformance() {
         if (performance.mark) {
             performance.mark('portfolio-app-start');
-            
+
             window.addEventListener('load', () => {
                 performance.mark('portfolio-app-end');
                 performance.measure('portfolio-app-load', 'portfolio-app-start', 'portfolio-app-end');
-                
+
                 const measure = performance.getEntriesByName('portfolio-app-load')[0];
                 console.log('Portfolio app load time:', measure.duration, 'ms');
             });
