@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>John Doe - Frontend Developer</title>
+    <link rel="shortcut icon" href="images/favicon.jpg" type="image/x-icon">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+</head>
+
+<body class="bg-gray-50 font-sans">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="text-2xl font-bold text-gray-800">Zainal Abrori</div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#home" class="nav-link text-gray-700 hover:text-blue-600 transition-colors">Home</a>
+                    <a href="#about" class="nav-link text-gray-700 hover:text-blue-600 transition-colors">About</a>
+                    <a href="#skills" class="nav-link text-gray-700 hover:text-blue-600 transition-colors">Skills</a>
+                    <a href="#projects"
+                        class="nav-link text-gray-700 hover:text-blue-600 transition-colors">Projects</a>
+                    <a href="#experience"
+                        class="nav-link text-gray-700 hover:text-blue-600 transition-colors">Experience</a>
+                    <a href="#contact" class="nav-link text-gray-700 hover:text-blue-600 transition-colors">Contact</a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button id="printBtn"
+                        class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                        <i class="fas fa-print mr-2"></i>Print Resume
+                    </button>
+                    <button id="mobileMenuBtn" class="md:hidden text-gray-700">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- Mobile Menu -->
+            <div id="mobileMenu" class="hidden md:hidden mt-4 pb-4">
+                <a href="#home" class="block py-2 text-gray-700 hover:text-blue-600">Home</a>
+                <a href="#about" class="block py-2 text-gray-700 hover:text-blue-600">About</a>
+                <a href="#skills" class="block py-2 text-gray-700 hover:text-blue-600">Skills</a>
+                <a href="#projects" class="block py-2 text-gray-700 hover:text-blue-600">Projects</a>
+                <a href="#experience" class="block py-2 text-gray-700 hover:text-blue-600">Experience</a>
+                <a href="#contact" class="block py-2 text-gray-700 hover:text-blue-600">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white py-20">
+        <div class="container mx-auto px-6 text-center">
+            <div class="profile-image mb-8">
+                <img src="images/profile.jpg" alt="Profile"
+                    class="w-32 h-32 rounded-full mx-auto border-4 border-white shadow-lg" />
+            </div>
+            <h1 class="text-5xl font-bold mb-4 animate-fadeIn">Zainal Abrori</h1>
+            <p class="text-xl mb-8 animate-fadeIn">
+                Fullstack Web & Mobile Developer
+            </p>
+            <div class="flex justify-center space-x-4">
+                <a href="#contact"
+                    class="border-2 border-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition-colors">
+                    Get In Touch
+                </a>
+                <a href="#projects"
+                    class="border-2 border-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition-colors">
+                    View Projects
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl font-bold text-center mb-12 text-gray-800">
+                About Me
+            </h2>
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <p class="text-lg text-gray-600 mb-6">
+                        Highly skilled and results-driven Fullstack Web Developer with 1
+                        year of experience designing, developing, and deploying dynamic
+                        web applications. Proficient in crafting scalable, secure, and
+                        user- friendly solutions across diverse industries. Expertise
+                        spans both frontend and backend development, ensuring seamless
+                        integration and performance optimization.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="https://www.linkedin.com/in/zainal-abrori-bb242829b/"
+                            class="text-blue-600 hover:text-blue-800 text-2xl">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="https://github.com/Zainalabrori" class="text-blue-600 hover:text-blue-800 text-2xl">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="bg-white p-8 rounded-lg shadow-lg">
+                    <h3 class="text-2xl font-bold mb-4 text-gray-800">Quick Facts</h3>
+                    <div class="space-y-3">
+                        <div class="flex items-center">
+                            <i class="fas fa-map-marker-alt text-blue-600 mr-3"></i>
+                            <span>Pamekasan, East Java, Indonesia</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-envelope text-blue-600 mr-3"></i>
+                            <span>zainalabrori.pro@gmail.com</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-phone text-blue-600 mr-3"></i>
+                            <span>+62 857-4575-0951</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-calendar text-blue-600 mr-3"></i>
+                            <span>Available for Freelance, Part-Time, Full-Time, Onsite,
+                                Remote, Contract</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-20 bg-gray-100">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl font-bold text-center mb-12 text-gray-800">
+                Skills & Technologies
+            </h2>
+            <div id="skillsContainer" class="grid md:grid-cols-3 gap-8">
+                <!-- Skills will be populated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-20">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl font-bold text-center mb-12 text-gray-800">
+                Featured Projects
+            </h2>
+            <div id="projectsContainer" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Projects will be populated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="py-20 bg-gray-100">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl font-bold text-center mb-12 text-gray-800">
+                Experience
+            </h2>
+            <div id="experienceContainer" class="max-w-4xl mx-auto">
+                <!-- Experience will be populated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-gray-800 text-white">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl font-bold text-center mb-12">Get In Touch</h2>
+            <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-12">
+                <div>
+                    <h3 class="text-2xl font-bold mb-6">Let's Work Together</h3>
+                    <p class="text-lg mb-6">
+                        I'm always interested in new opportunities and exciting projects.
+                        Feel free to reach out if you'd like to collaborate!
+                    </p>
+                    <div class="space-y-4">
+                        <div class="flex items-center">
+                            <i class="fas fa-envelope text-blue-400 mr-4 text-xl"></i>
+                            <span>zainalabrori.pro@email.com</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-phone text-blue-400 mr-4 text-xl"></i>
+                            <span>+62 857-4575-0951</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-map-marker-alt text-blue-400 mr-4 text-xl"></i>
+                            <span>Pamekasan, East Java, Indonesia</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- <form id="contactForm" class="space-y-6"> -->
+                <!-- <form id="contactForm" action="https://formsubmit.co/3d84d6b7025d2330db7081921831878a" method="POST"
+                    class="space-y-6">
+                    <input type="hidden" name="_captcha" value="false">
+
+                    <div>
+                        <input type="text" id="name" name="name" placeholder="Your Name"
+                            class="w-full px-4 py-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:border-blue-400 focus:outline-none" />
+                    </div>
+                    <div>
+                        <input type="email" id="email" name="email" placeholder="Your Email"
+                            class="w-full px-4 py-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:border-blue-400 focus:outline-none" />
+                    </div>
+                    <div>
+                        <textarea id="message" name="message" rows="5" placeholder="Your Message"
+                            class="w-full px-4 py-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:border-blue-400 focus:outline-none resize-none"></textarea>
+                    </div>
+                    <button type="submit"
+                        class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
+                        Send Message
+                    </button>
+                </form> -->
+                <form action="https://formsubmit.co/3d84d6b7025d2330db7081921831878a" method="POST" class="space-y-6">
+                    <input type="hidden" name="_captcha" value="false">
+
+                    <div>
+                        <input type="text" name="name" placeholder="Your Name"
+                            class="w-full px-4 py-3 rounded-lg bg-gray-700 text-white border border-gray-600"
+                            required />
+                    </div>
+
+                    <div>
+                        <input type="email" name="email" placeholder="Your Email"
+                            class="w-full px-4 py-3 rounded-lg bg-gray-700 text-white border border-gray-600"
+                            required />
+                    </div>
+
+                    <div>
+                        <textarea name="message" rows="5" placeholder="Your Message"
+                            class="w-full px-4 py-3 rounded-lg bg-gray-700 text-white border border-gray-600 resize-none"
+                            required></textarea>
+                    </div>
+
+                    <button type="submit"
+                        class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
+                        Send Message
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-8">
+        <div class="container mx-auto px-6 text-center">
+            <p>&copy; 2025 John Doe. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Print Resume Modal -->
+    <div id="printModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white p-8 rounded-lg max-w-2xl w-full mx-4">
+            <h3 class="text-2xl font-bold mb-4 text-gray-800">Print Resume</h3>
+            <p class="text-gray-600 mb-6">Choose your resume format:</p>
+            <div class="flex space-x-4">
+                <button id="printFullBtn"
+                    class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors">
+                    <i class="fas fa-file-alt mr-2"></i>Full Resume
+                </button>
+                <button id="printSummaryBtn"
+                    class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors">
+                    <i class="fas fa-file-contract mr-2"></i>Summary Only
+                </button>
+                <button id="closePrintModal"
+                    class="bg-gray-600 text-white px-6 py-3 rounded-lg hover:bg-gray-700 transition-colors">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+    <script src="print.js"></script>
+</body>
+
+</html>
