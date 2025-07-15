@@ -6,7 +6,7 @@ const portfolioData = {
     personal: {
         name: "Zainal Abrori",
         title: "Fullstack Web & Mobile Developer",
-        email: "zainalabrori.pro@email.com",
+        email: "zainalabrori.pro@gmail.com",
         phone: "+62 857-4575-0951",
         location: "Pamekasan, East Java, Indonesia",
         linkedin: "https://www.linkedin.com/in/zainal-abrori-bb242829b/",
