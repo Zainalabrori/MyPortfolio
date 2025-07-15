@@ -158,21 +158,6 @@ const portfolioData = {
                 "Implemented SEO best practices resulting in improved search rankings"
             ],
             technologies: ["Vue.js", "Sass", "Bootstrap", "WordPress", "PHP"]
-        },
-        {
-            id: 3,
-            company: "StartupTech",
-            position: "Junior Frontend Developer",
-            duration: "2019 - 2020",
-            location: "Remote",
-            description: "Contributed to the development of a SaaS platform for small businesses.",
-            achievements: [
-                "Developed reusable UI components reducing development time by 25%",
-                "Participated in daily standups and sprint planning sessions",
-                "Fixed 100+ bugs and implemented new features based on user feedback",
-                "Collaborated with backend developers on API integration"
-            ],
-            technologies: ["JavaScript", "HTML5", "CSS3", "jQuery", "Bootstrap"]
         }
     ],
 
