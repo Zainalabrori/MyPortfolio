@@ -131,10 +131,10 @@ const portfolioData = {
     experience: [
         {
             id: 1,
-            company: "Tech Solutions Inc.",
-            position: "Senior Frontend Developer",
-            duration: "2022 - Present",
-            location: "New York, NY",
+            company: "PT Surya Sejahtera Sentosa",
+            position: "Frontend Developer",
+            duration: "February 2024 - June 2024",
+            location: "Ngawi, East Java, Indonesia",
             description: "Leading frontend development for enterprise web applications serving 100k+ users daily.",
             achievements: [
                 "Reduced page load times by 40% through performance optimization",
