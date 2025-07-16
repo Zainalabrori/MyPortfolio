@@ -146,18 +146,18 @@ const portfolioData = {
         },
         {
             id: 2,
-            company: "Digital Agency Pro",
+            company: "PT Multidaya Dinamika",
             position: "Frontend Developer",
-            duration: "2020 - 2022",
-            location: "Brooklyn, NY",
-            description: "Developed responsive websites and web applications for diverse clients across multiple industries.",
+            duration: "August 2024 - November 2024",
+            location: "Setiabudi, Jakarta Selatan, Indonesia",
+            description: "Take part in building applications to manage attractions.",
             achievements: [
                 "Built 20+ responsive websites using modern frontend frameworks",
                 "Improved client satisfaction scores by 30% through better UX design",
                 "Collaborated with designers to create pixel-perfect implementations",
                 "Implemented SEO best practices resulting in improved search rankings"
             ],
-            technologies: ["Vue.js", "Sass", "Bootstrap", "WordPress", "PHP"]
+            technologies: ["Dart", "Flutter"]
         }
     ],
 
