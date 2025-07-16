@@ -131,18 +131,18 @@ const portfolioData = {
     experience: [
         {
             id: 1,
-            company: "PT Surya Sejahtera Sentosa",
+            company: "CV Surya Sejahtera Sentosa",
             position: "Frontend Developer",
             duration: "February 2024 - June 2024",
             location: "Ngawi, East Java, Indonesia",
             description: "Development of leading frontend for factories and warehouse web applications.",
             achievements: [
-                "Reduced page load times by 40% through performance optimization",
-                "Led a team of 5 developers in migrating legacy codebase to React",
-                "Implemented automated testing resulting in 95% code coverage",
-                "Mentored junior developers and conducted code reviews"
+                "Reduced Inventory Errors by 90%",
+                "Improved Stock Turnover by 30%",
+                "Accelerated Warehouse Operations by 40%",
+                "Reduced Manual Entry Time by 70%"
             ],
-            technologies: ["CSS", "Blade", "PHP", "JavaScript"]
+            technologies: ["CSS", "Blade", "JavaScript", "Bootstrap"]
         },
         {
             id: 2,
