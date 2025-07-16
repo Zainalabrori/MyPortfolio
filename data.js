@@ -154,7 +154,8 @@ const portfolioData = {
             achievements: [
                 "Boosted Visitor Satisfaction up to 90%",
                 "Expanded Promotion Reach by 3x",
-                "Optimized Attraction Operations"
+                "Optimized Attraction Operations",
+                "Cut Manual Operational Costs by 50%"
             ],
             technologies: ["Dart", "Flutter"]
         }
