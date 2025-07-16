@@ -135,14 +135,14 @@ const portfolioData = {
             position: "Frontend Developer",
             duration: "February 2024 - June 2024",
             location: "Ngawi, East Java, Indonesia",
-            description: "Leading frontend development for enterprise web applications serving 100k+ users daily.",
+            description: "Development of leading frontend for factories and warehouse web applications.",
             achievements: [
                 "Reduced page load times by 40% through performance optimization",
                 "Led a team of 5 developers in migrating legacy codebase to React",
                 "Implemented automated testing resulting in 95% code coverage",
                 "Mentored junior developers and conducted code reviews"
             ],
-            technologies: ["React", "TypeScript", "Redux", "Webpack", "Jest"]
+            technologies: ["CSS", "Blade", "PHP", "JavaScript"]
         },
         {
             id: 2,
