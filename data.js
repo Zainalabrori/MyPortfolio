@@ -152,10 +152,9 @@ const portfolioData = {
             location: "Setiabudi, Jakarta Selatan, Indonesia",
             description: "Take part in building applications to manage attractions.",
             achievements: [
-                "Built 20+ responsive websites using modern frontend frameworks",
-                "Improved client satisfaction scores by 30% through better UX design",
-                "Collaborated with designers to create pixel-perfect implementations",
-                "Implemented SEO best practices resulting in improved search rankings"
+                "Boosted Visitor Satisfaction up to 90%",
+                "Expanded Promotion Reach by 3x",
+                "Optimized Attraction Operations"
             ],
             technologies: ["Dart", "Flutter"]
         }
