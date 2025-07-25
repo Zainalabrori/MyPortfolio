@@ -37,13 +37,13 @@
                 </div>
             </div>
             <!-- Mobile Menu -->
-            <div id="mobileMenu" class="hidden md:hidden mt-4 pb-4">
-                <a href="#home" class="block py-2 text-gray-700 hover:text-blue-600">Home</a>
-                <a href="#about" class="block py-2 text-gray-700 hover:text-blue-600">About</a>
-                <a href="#skills" class="block py-2 text-gray-700 hover:text-blue-600">Skills</a>
-                <a href="#projects" class="block py-2 text-gray-700 hover:text-blue-600">Projects</a>
-                <a href="#experience" class="block py-2 text-gray-700 hover:text-blue-600">Experience</a>
-                <a href="#contact" class="block py-2 text-gray-700 hover:text-blue-600">Contact</a>
+            <div id="mobileMenu" class="hidden md:hidden mt-4 pb-4 text-center">
+                <a href="#home" class="block py-2 px-4 rounded hover:bg-blue-100 text-gray-700">Home</a>
+                <a href="#about" class="block py-2 px-4 rounded hover:bg-blue-100 text-gray-700">About</a>
+                <a href="#skills" class="block py-2 px-4 rounded hover:bg-blue-100 text-gray-700">Skills</a>
+                <a href="#projects" class="block py-2 px-4 rounded hover:bg-blue-100 text-gray-700">Projects</a>
+                <a href="#experience" class="block py-2 px-4 rounded hover:bg-blue-100 text-gray-700">Experience</a>
+                <a href="#contact" class="block py-2 px-4 rounded hover:bg-blue-100 text-gray-700">Contact</a>
             </div>
         </div>
     </nav>
@@ -186,8 +186,7 @@
                         </div>
                     </div>
                 </div>
-                <form id="contactForm" method="POST"
-                    class="space-y-6">
+                <form id="contactForm" method="POST" class="space-y-6">
                     <input type="hidden" name="_captcha" value="false">
 
                     <div>
@@ -247,6 +246,16 @@
     </div>
 
     <!-- Scripts -->
+    <script>
+        const links = document.querySelectorAll('#mobileMenu a');
+        links.forEach(link => {
+            link.addEventListener('click', () => {
+                links.forEach(l => l.classList.remove('bg-blue-500', 'text-white'));
+                link.classList.add('bg-blue-500', 'text-white');
+            });
+        });
+    </script>
+
     <script src="data.js"></script>
     <script src="app.js"></script>
     <script src="print.js"></script>
