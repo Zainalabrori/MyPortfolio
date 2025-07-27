@@ -7,6 +7,8 @@
     <title>Zainal Abrori - Fullstack Web & Mobile Developer</title>
     <link rel="shortcut icon" href="images/curriculum-vitae.png" type="image/x-icon">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
 </head>
 
@@ -29,7 +31,7 @@
                 <div class="flex items-center space-x-4">
                     <button id="printBtn"
                         class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
-                        <i class="fas fa-print mr-2"></i>Print Resume
+                        <i class="fas fa-download mr-2"></i>Download
                     </button>
                     <button id="mobileMenuBtn" class="md:hidden text-gray-700">
                         <i class="fas fa-bars text-xl"></i>
@@ -258,7 +260,8 @@
 
     <script src="data.js"></script>
     <script src="app.js"></script>
-    <script src="print.js"></script>
+    <!-- <script src="print.js"></script> -->
+    <script src="download.js"></script>
 </body>
 
 </html>
