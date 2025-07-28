@@ -10,7 +10,8 @@ const portfolioData = {
         phone: "+62 857-4575-0951",
         location: "Pamekasan, East Java, Indonesia",
         linkedin: "https://www.linkedin.com/in/zainal-abrori-bb242829b/",
-        github: "https://github.com/Zainalabrori"
+        github: "https://github.com/Zainalabrori",
+        website: "https://zainalabrori-blog.vercel.app/"
     },
 
     // Skills data with proficiency levels

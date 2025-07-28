@@ -225,12 +225,14 @@
         </div>
     </footer>
 
-    <!-- Print Resume Modal -->
+    <!-- Download Resume Modal -->
     <div id="printModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
-        <div class="bg-white p-8 rounded-lg max-w-2xl w-full mx-4">
-            <h3 class="text-2xl font-bold mb-4 text-gray-800">Print Resume</h3>
-            <p class="text-gray-600 mb-6">Choose your resume format:</p>
-            <div class="flex space-x-4">
+        <div class="relative bg-white p-6 sm:p-8 rounded-lg max-w-2xl w-full mx-4">
+            <h3 class="text-xl sm:text-2xl font-bold mb-4 text-gray-800">Download Resume</h3>
+            <p class="text-gray-600 mb-6 text-sm sm:text-base">Choose resume format:</p>
+
+            <!-- Buttons on large screen -->
+            <div class="hidden sm:flex space-x-4">
                 <button id="printFullBtn"
                     class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors">
                     <i class="fas fa-file-alt mr-2"></i>Full Resume
@@ -243,6 +245,26 @@
                     class="bg-gray-600 text-white px-6 py-3 rounded-lg hover:bg-gray-700 transition-colors">
                     Cancel
                 </button>
+            </div>
+
+            <!-- Buttons on mobile -->
+            <div class="flex flex-col sm:hidden space-y-4">
+                <div class="flex space-x-4">
+                    <button id="printFullBtnMobile"
+                        class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors flex-1">
+                        <i class="fas fa-file-alt mr-2"></i>Full Resume
+                    </button>
+                    <button id="printSummaryBtnMobile"
+                        class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors flex-1">
+                        <i class="fas fa-file-contract mr-2"></i>Summary Only
+                    </button>
+                </div>
+                <div class="flex justify-end">
+                    <button id="closePrintModalMobile"
+                        class="bg-gray-600 text-white px-6 py-3 rounded-lg hover:bg-gray-700 transition-colors">
+                        Cancel
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -260,7 +282,6 @@
 
     <script src="data.js"></script>
     <script src="app.js"></script>
-    <!-- <script src="print.js"></script> -->
     <script src="download.js"></script>
 </body>
 

@@ -2,68 +2,68 @@
 // Handles automatic resume generation and PDF download using html2canvas and jsPDF
 
 class DownloadManager {
-    constructor() {
-        this.librariesReady = false;
-        this.setupDownloadHandlers();
-        
-        // Wait for DOM and libraries to be ready
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', () => {
-                setTimeout(() => this.checkLibraries(), 100);
-            });
-        } else {
-            setTimeout(() => this.checkLibraries(), 100);
-        }
-        
-        console.log('Download manager initialized');
+  constructor() {
+    this.librariesReady = false;
+    this.setupDownloadHandlers();
+
+    // Wait for DOM and libraries to be ready
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", () => {
+        setTimeout(() => this.checkLibraries(), 100);
+      });
+    } else {
+      setTimeout(() => this.checkLibraries(), 100);
     }
 
-    // Check if libraries are available (loaded via HTML)
-    checkLibraries() {
-        console.log('=== Library Check ===');
-        console.log('html2canvas type:', typeof html2canvas);
-        console.log('window.jsPDF type:', typeof window.jsPDF);
-        console.log('global jsPDF type:', typeof jsPDF);
-        
-        const html2canvasReady = typeof html2canvas !== 'undefined';
-        let jsPDFReady = false;
-        
-        // Check for different jsPDF globals
-        if (typeof window.jsPDF !== 'undefined') {
-            console.log('✅ Found jsPDF in window.jsPDF');
-            jsPDFReady = true;
-        } else if (typeof jsPDF !== 'undefined') {
-            console.log('✅ Found jsPDF in global scope');
-            jsPDFReady = true;
-        } else if (window.jspdf && window.jspdf.jsPDF) {
-            console.log('✅ Found jsPDF in window.jspdf.jsPDF');
-            jsPDFReady = true;
-        }
-        
-        console.log('Library status:');
-        console.log('- html2canvas:', html2canvasReady ? '✅' : '❌');
-        console.log('- jsPDF:', jsPDFReady ? '✅' : '❌');
-        
-        if (html2canvasReady && jsPDFReady) {
-            this.librariesReady = true;
-            console.log('🎉 All libraries ready!');
-        } else {
-            this.librariesReady = false;
-            console.warn('⏳ Libraries not ready yet, will retry...');
-            
-            // Retry after 500ms if not ready
-            if (this.retryCount < 10) {
-                this.retryCount = (this.retryCount || 0) + 1;
-                setTimeout(() => this.checkLibraries(), 500);
-            } else {
-                console.error('❌ Libraries failed to load after multiple attempts');
-                this.showLibraryMissingError();
-            }
-        }
+    console.log("Download manager initialized");
+  }
+
+  // Check if libraries are available (loaded via HTML)
+  checkLibraries() {
+    console.log("=== Library Check ===");
+    console.log("html2canvas type:", typeof html2canvas);
+    console.log("window.jsPDF type:", typeof window.jsPDF);
+    console.log("global jsPDF type:", typeof jsPDF);
+
+    const html2canvasReady = typeof html2canvas !== "undefined";
+    let jsPDFReady = false;
+
+    // Check for different jsPDF globals
+    if (typeof window.jsPDF !== "undefined") {
+      console.log("✅ Found jsPDF in window.jsPDF");
+      jsPDFReady = true;
+    } else if (typeof jsPDF !== "undefined") {
+      console.log("✅ Found jsPDF in global scope");
+      jsPDFReady = true;
+    } else if (window.jspdf && window.jspdf.jsPDF) {
+      console.log("✅ Found jsPDF in window.jspdf.jsPDF");
+      jsPDFReady = true;
     }
 
-    showLibraryMissingError() {
-        const errorMsg = `
+    console.log("Library status:");
+    console.log("- html2canvas:", html2canvasReady ? "✅" : "❌");
+    console.log("- jsPDF:", jsPDFReady ? "✅" : "❌");
+
+    if (html2canvasReady && jsPDFReady) {
+      this.librariesReady = true;
+      console.log("🎉 All libraries ready!");
+    } else {
+      this.librariesReady = false;
+      console.warn("⏳ Libraries not ready yet, will retry...");
+
+      // Retry after 500ms if not ready
+      if (this.retryCount < 10) {
+        this.retryCount = (this.retryCount || 0) + 1;
+        setTimeout(() => this.checkLibraries(), 500);
+      } else {
+        console.error("❌ Libraries failed to load after multiple attempts");
+        this.showLibraryMissingError();
+      }
+    }
+  }
+
+  showLibraryMissingError() {
+    const errorMsg = `
             <div style="position: fixed; top: 20px; right: 20px; background: #fee2e2; border: 1px solid #fecaca; color: #991b1b; padding: 15px; border-radius: 8px; max-width: 350px; z-index: 1000; font-family: Arial, sans-serif;">
                 <h4 style="margin: 0 0 10px 0; font-weight: bold;">⚠️ Required Libraries Missing</h4>
                 <p style="margin: 0 0 10px 0; font-size: 14px;">Please add these to your HTML head:</p>
@@ -76,228 +76,294 @@ class DownloadManager {
                 </button>
             </div>
         `;
-        
-        const errorDiv = document.createElement('div');
-        errorDiv.innerHTML = errorMsg;
-        document.body.appendChild(errorDiv);
+
+    const errorDiv = document.createElement("div");
+    errorDiv.innerHTML = errorMsg;
+    document.body.appendChild(errorDiv);
+  }
+
+  setupDownloadHandlers() {
+    // Get all modal elements
+    const downloadModal = document.getElementById("printModal");
+    const printBtn = document.getElementById("printBtn");
+
+    console.log("Setting up download handlers for mobile and desktop...");
+
+    // Show modal when print button is clicked
+    if (printBtn) {
+      printBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        console.log("Download button clicked, showing modal...");
+        this.showDownloadModal();
+      });
+    } else {
+      console.error(
+        'Print button not found! Make sure element has id="printBtn"'
+      );
     }
 
-    setupDownloadHandlers() {
-        // Download modal handlers
-        const closeDownloadModal = document.getElementById('closePrintModal'); // Reusing existing modal
-        const downloadFullBtn = document.getElementById('printFullBtn'); // Reusing existing buttons
-        const downloadSummaryBtn = document.getElementById('printSummaryBtn');
-        const downloadModal = document.getElementById('printModal');
-        const printBtn = document.getElementById('printBtn');
+    // Setup handlers for BOTH desktop and mobile buttons
+    this.setupButtonHandlers();
 
-        // Show modal when print button is clicked
-        if (printBtn) {
-            printBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                console.log('Download button clicked, showing modal...');
-                this.showDownloadModal();
-            });
-        } else {
-            console.error('Print button not found! Make sure element has id="printBtn"');
+    // Close modal when clicking outside
+    if (downloadModal) {
+      downloadModal.addEventListener("click", (e) => {
+        if (e.target === downloadModal) {
+          console.log("Clicked outside modal, closing...");
+          this.hideDownloadModal();
         }
+      });
+    }
 
-        // Close modal handlers
-        if (closeDownloadModal) {
-            closeDownloadModal.addEventListener('click', () => {
-                this.hideDownloadModal();
-            });
-        }
+    // Keyboard shortcuts
+    document.addEventListener("keydown", (e) => {
+      if (e.ctrlKey && e.key === "d") {
+        e.preventDefault();
+        this.showDownloadModal();
+      }
+      if (e.key === "Escape") {
+        this.hideDownloadModal();
+      }
+    });
+  }
 
-        // Close modal when clicking outside
-        if (downloadModal) {
-            downloadModal.addEventListener('click', (e) => {
-                if (e.target === downloadModal) {
-                    this.hideDownloadModal();
-                }
-            });
-        }
+  // NEW METHOD: Handle both desktop and mobile buttons
+  setupButtonHandlers() {
+    // Desktop buttons
+    const downloadFullBtn = document.getElementById("printFullBtn");
+    const downloadSummaryBtn = document.getElementById("printSummaryBtn");
+    const closeDownloadModal = document.getElementById("closePrintModal");
 
-        // Download button handlers
-        if (downloadFullBtn) {
-            downloadFullBtn.addEventListener('click', () => {
-                console.log('Full resume download requested');
-                this.downloadFullResume();
-            });
-        }
+    // Mobile buttons
+    const downloadFullBtnMobile = document.getElementById("printFullBtnMobile");
+    const downloadSummaryBtnMobile = document.getElementById(
+      "printSummaryBtnMobile"
+    );
+    const closeDownloadModalMobile = document.getElementById(
+      "closePrintModalMobile"
+    );
 
-        if (downloadSummaryBtn) {
-            downloadSummaryBtn.addEventListener('click', () => {
-                console.log('Summary resume download requested');
-                this.downloadSummaryResume();
-            });
-        }
+    console.log("Button elements found:");
+    console.log("- Desktop Full:", !!downloadFullBtn);
+    console.log("- Desktop Summary:", !!downloadSummaryBtn);
+    console.log("- Desktop Close:", !!closeDownloadModal);
+    console.log("- Mobile Full:", !!downloadFullBtnMobile);
+    console.log("- Mobile Summary:", !!downloadSummaryBtnMobile);
+    console.log("- Mobile Close:", !!closeDownloadModalMobile);
 
-        // Keyboard shortcuts
-        document.addEventListener('keydown', (e) => {
-            if (e.ctrlKey && e.key === 'd') {
-                e.preventDefault();
-                this.showDownloadModal();
-            }
-            if (e.key === 'Escape') {
-                this.hideDownloadModal();
-            }
+    // Full Resume Download - Desktop & Mobile
+    [downloadFullBtn, downloadFullBtnMobile].forEach((btn) => {
+      if (btn) {
+        btn.addEventListener("click", () => {
+          console.log("Full resume download requested");
+          this.downloadFullResume();
         });
+      }
+    });
+
+    // Summary Resume Download - Desktop & Mobile
+    [downloadSummaryBtn, downloadSummaryBtnMobile].forEach((btn) => {
+      if (btn) {
+        btn.addEventListener("click", () => {
+          console.log("Summary resume download requested");
+          this.downloadSummaryResume();
+        });
+      }
+    });
+
+    // Close Modal - Desktop & Mobile
+    [closeDownloadModal, closeDownloadModalMobile].forEach((btn) => {
+      if (btn) {
+        btn.addEventListener("click", () => {
+          console.log("Modal close requested");
+          this.hideDownloadModal();
+        });
+      }
+    });
+  }
+
+  // Enhanced modal show/hide with better mobile support
+  showDownloadModal() {
+    const modal = document.getElementById("printModal");
+    if (modal) {
+      modal.classList.remove("hidden");
+      modal.classList.add("flex");
+
+      // Prevent body scroll on mobile
+      document.body.style.overflow = "hidden";
+
+      console.log("Download modal opened - mobile/desktop compatible");
+    } else {
+      console.error('Modal not found! Make sure element has id="printModal"');
+    }
+  }
+
+  hideDownloadModal() {
+    const modal = document.getElementById("printModal");
+    if (modal) {
+      modal.classList.add("hidden");
+      modal.classList.remove("flex");
+
+      // Restore body scroll
+      document.body.style.overflow = "";
+
+      console.log("Download modal closed");
+    }
+  }
+
+  async downloadFullResume() {
+    if (!this.librariesReady) {
+      console.error("Libraries not ready");
+      alert(
+        "Required libraries are not loaded. Please add them to your HTML head section."
+      );
+      return;
     }
 
-    showDownloadModal() {
-        const modal = document.getElementById('printModal');
-        if (modal) {
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-            console.log('Download modal opened');
-        } else {
-            console.error('Modal not found! Make sure element has id="printModal"');
-        }
+    console.log("Generating full resume PDF...");
+    this.hideDownloadModal();
+
+    try {
+      const resumeContent = this.createResumeHTML(true);
+      await this.generateAndDownloadPDF(
+        resumeContent,
+        `${portfolioData.personal.name}_Full_Resume.pdf`
+      );
+    } catch (error) {
+      console.error("Error generating full resume:", error);
+      alert("Error generating PDF. Please try again.");
+    }
+  }
+
+  async downloadSummaryResume() {
+    if (!this.librariesReady) {
+      console.error("Libraries not ready");
+      alert(
+        "Required libraries are not loaded. Please add them to your HTML head section."
+      );
+      return;
     }
 
-    hideDownloadModal() {
-        const modal = document.getElementById('printModal');
-        if (modal) {
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-            console.log('Download modal closed');
-        }
+    console.log("Generating summary resume PDF...");
+    this.hideDownloadModal();
+
+    try {
+      const resumeContent = this.createResumeHTML(false);
+      await this.generateAndDownloadPDF(
+        resumeContent,
+        `${portfolioData.personal.name}_Resume_Summary.pdf`
+      );
+    } catch (error) {
+      console.error("Error generating summary resume:", error);
+      alert("Error generating PDF. Please try again.");
     }
+  }
 
-    async downloadFullResume() {
-        if (!this.librariesReady) {
-            console.error('Libraries not ready');
-            alert('Required libraries are not loaded. Please add them to your HTML head section.');
-            return;
-        }
+  async generateAndDownloadPDF(htmlContent, filename) {
+    console.log("Starting PDF generation process...");
 
-        console.log('Generating full resume PDF...');
-        this.hideDownloadModal();
-        
-        try {
-            const resumeContent = this.createResumeHTML(true);
-            await this.generateAndDownloadPDF(resumeContent, `${portfolioData.personal.name}_Full_Resume.pdf`);
-        } catch (error) {
-            console.error('Error generating full resume:', error);
-            alert('Error generating PDF. Please try again.');
+    // Create temporary container for HTML content
+    const tempContainer = document.createElement("div");
+    tempContainer.innerHTML = htmlContent;
+    tempContainer.style.position = "absolute";
+    tempContainer.style.left = "-9999px";
+    tempContainer.style.top = "0";
+    tempContainer.style.width = "210mm"; // A4 width
+    tempContainer.style.background = "white";
+
+    document.body.appendChild(tempContainer);
+
+    try {
+      // Generate canvas from HTML
+      console.log("Converting HTML to canvas...");
+      const canvas = await html2canvas(
+        tempContainer.querySelector(".resume-container"),
+        {
+          scale: 2, // Higher quality
+          useCORS: true,
+          allowTaint: true,
+          backgroundColor: "#ffffffff",
+          width: 794, // A4 width in pixels at 96 DPI
+          height: null, // Auto height
         }
+      );
+
+      // Create PDF with better error handling
+      console.log("Canvas generated, creating PDF...");
+
+      // Get jsPDF from any available namespace
+      let jsPDFClass;
+      if (typeof window.jsPDF !== "undefined") {
+        jsPDFClass = window.jsPDF.jsPDF || window.jsPDF;
+      } else if (typeof jsPDF !== "undefined") {
+        jsPDFClass = jsPDF;
+      } else if (window.jspdf && window.jspdf.jsPDF) {
+        jsPDFClass = window.jspdf.jsPDF;
+      } else {
+        throw new Error("jsPDF not found in any expected location");
+      }
+
+      console.log("Using jsPDF class:", typeof jsPDFClass);
+
+      // Create PDF instance
+      const pdf = new jsPDFClass({
+        orientation: "portrait",
+        unit: "mm",
+        format: "a4",
+        compress: true,
+      });
+
+      // Calculate dimensions
+      const pdfWidth = 210; // A4 width in mm
+      const pdfHeight = 297; // A4 height in mm
+      const imgWidth = pdfWidth;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+      console.log(`PDF dimensions: ${imgWidth}x${imgHeight}mm`);
+
+      // Convert canvas to image
+      const imgData = canvas.toDataURL("image/jpeg", 0.95);
+
+      // Add image to PDF
+      pdf.addImage(imgData, "JPEG", 0, 0, imgWidth, imgHeight);
+
+      // Handle multi-page content if needed
+      if (imgHeight > pdfHeight) {
+        const totalPages = Math.ceil(imgHeight / pdfHeight);
+        console.log(`Content spans ${totalPages} pages`);
+
+        for (let i = 1; i < totalPages; i++) {
+          pdf.addPage();
+          const yOffset = -pdfHeight * i;
+          pdf.addImage(imgData, "JPEG", 0, yOffset, imgWidth, imgHeight);
+        }
+      }
+
+      // Download the PDF
+      console.log("Downloading PDF:", filename);
+      pdf.save(filename);
+
+      console.log("PDF download completed successfully");
+    } catch (error) {
+      console.error("PDF generation failed:", error);
+      throw error;
+    } finally {
+      // Clean up temporary container
+      document.body.removeChild(tempContainer);
     }
+  }
 
-    async downloadSummaryResume() {
-        if (!this.librariesReady) {
-            console.error('Libraries not ready');
-            alert('Required libraries are not loaded. Please add them to your HTML head section.');
-            return;
-        }
+  createResumeHTML(isFullResume = true) {
+    const {
+      personal,
+      skills,
+      experience,
+      education,
+      certifications,
+      projects,
+    } = portfolioData;
 
-        console.log('Generating summary resume PDF...');
-        this.hideDownloadModal();
-        
-        try {
-            const resumeContent = this.createResumeHTML(false);
-            await this.generateAndDownloadPDF(resumeContent, `${portfolioData.personal.name}_Resume_Summary.pdf`);
-        } catch (error) {
-            console.error('Error generating summary resume:', error);
-            alert('Error generating PDF. Please try again.');
-        }
-    }
-
-    async generateAndDownloadPDF(htmlContent, filename) {
-        console.log('Starting PDF generation process...');
-        
-        // Create temporary container for HTML content
-        const tempContainer = document.createElement('div');
-        tempContainer.innerHTML = htmlContent;
-        tempContainer.style.position = 'absolute';
-        tempContainer.style.left = '-9999px';
-        tempContainer.style.top = '0';
-        tempContainer.style.width = '210mm'; // A4 width
-        tempContainer.style.background = 'white';
-        
-        document.body.appendChild(tempContainer);
-
-        try {
-            // Generate canvas from HTML
-            console.log('Converting HTML to canvas...');
-            const canvas = await html2canvas(tempContainer.querySelector('.resume-container'), {
-                scale: 2, // Higher quality
-                useCORS: true,
-                allowTaint: true,
-                backgroundColor: '#ffffffff',
-                width: 794, // A4 width in pixels at 96 DPI
-                height: null // Auto height
-            });
-
-            // Create PDF with better error handling
-            console.log('Canvas generated, creating PDF...');
-            
-            // Get jsPDF from any available namespace
-            let jsPDFClass;
-            if (typeof window.jsPDF !== 'undefined') {
-                jsPDFClass = window.jsPDF.jsPDF || window.jsPDF;
-            } else if (typeof jsPDF !== 'undefined') {
-                jsPDFClass = jsPDF;
-            } else if (window.jspdf && window.jspdf.jsPDF) {
-                jsPDFClass = window.jspdf.jsPDF;
-            } else {
-                throw new Error('jsPDF not found in any expected location');
-            }
-            
-            console.log('Using jsPDF class:', typeof jsPDFClass);
-            
-            // Create PDF instance
-            const pdf = new jsPDFClass({
-                orientation: 'portrait',
-                unit: 'mm',
-                format: 'a4',
-                compress: true
-            });
-
-            // Calculate dimensions
-            const pdfWidth = 210; // A4 width in mm
-            const pdfHeight = 297; // A4 height in mm
-            const imgWidth = pdfWidth;
-            const imgHeight = (canvas.height * imgWidth) / canvas.width;
-            
-            console.log(`PDF dimensions: ${imgWidth}x${imgHeight}mm`);
-            
-            // Convert canvas to image
-            const imgData = canvas.toDataURL('image/jpeg', 0.95);
-            
-            // Add image to PDF
-            pdf.addImage(imgData, 'JPEG', 0, 0, imgWidth, imgHeight);
-
-            // Handle multi-page content if needed
-            if (imgHeight > pdfHeight) {
-                const totalPages = Math.ceil(imgHeight / pdfHeight);
-                console.log(`Content spans ${totalPages} pages`);
-                
-                for (let i = 1; i < totalPages; i++) {
-                    pdf.addPage();
-                    const yOffset = -pdfHeight * i;
-                    pdf.addImage(imgData, 'JPEG', 0, yOffset, imgWidth, imgHeight);
-                }
-            }
-
-            // Download the PDF
-            console.log('Downloading PDF:', filename);
-            pdf.save(filename);
-            
-            console.log('PDF download completed successfully');
-            
-        } catch (error) {
-            console.error('PDF generation failed:', error);
-            throw error;
-        } finally {
-            // Clean up temporary container
-            document.body.removeChild(tempContainer);
-        }
-    }
-
-    createResumeHTML(isFullResume = true) {
-        const { personal, skills, experience, education, certifications, projects } = portfolioData;
-        
-        return `
+    return `
         <div class="resume-container">
             <!-- Header Section -->
             <header class="resume-header">
@@ -327,9 +393,10 @@ class DownloadManager {
             <section class="resume-section">
                 <h2 class="section-title">Professional Summary</h2>
                 <p class="summary-text">
-                    Experienced ${personal.title.toLowerCase()} with ${experience.length}+ years of expertise in modern web development. 
-                    Proven track record in building scalable applications, leading development teams, and delivering high-quality solutions. 
-                    Passionate about creating exceptional user experiences and staying current with emerging technologies.
+                    Highly skilled and results-driven ${personal.title.toLowerCase()} with 1 year of experience designing, developing,
+                    and deploying dynamic web applications. Proficient in crafting scalable, secure, and user- friendly solutions
+                    across diverse industries. Expertise spans both frontend and backend development, ensuring seamless
+                    integration and performance optimization.
                 </p>
             </section>
 
@@ -337,70 +404,107 @@ class DownloadManager {
             <section class="resume-section">
                 <h2 class="section-title">Technical Skills</h2>
                 <div class="skills-grid">
-                    ${skills.map(category => `
+                    ${skills
+                      .map(
+                        (category) => `
                         <div class="skill-category">
-                            <h3 class="skill-category-title">${category.category}</h3>
+                            <h3 class="skill-category-title">${
+                              category.category
+                            }</h3>
                             <div class="skill-list">
-                                ${category.skills.map(skill => `
-                                    <span class="skill-tag">${skill.name}</span>
-                                `).join('')}
+                                <ul>
+                                    ${category.skills
+                                      .map((skill) => `<li> ${skill.name}</li>`)
+                                      .join("")}
+                                </ul>
                             </div>
                         </div>
-                    `).join('')}
+                    `
+                      )
+                      .join("")}
                 </div>
             </section>
 
             <!-- Experience Section -->
             <section class="resume-section">
                 <h2 class="section-title">Professional Experience</h2>
-                ${experience.map(job => `
+                ${experience
+                  .map(
+                    (job) => `
                     <div class="experience-item">
                         <div class="job-header">
                             <div class="job-title-company">
                                 <h3 class="job-title">${job.position}</h3>
-                                <p class="company">${job.company} • ${job.location}</p>
+                                <p class="company">${job.company} • ${
+                      job.location
+                    }</p>
                             </div>
                             <div class="job-duration">${job.duration}</div>
                         </div>
                         <p class="job-description">${job.description}</p>
-                        ${isFullResume ? `
+                        ${
+                          isFullResume
+                            ? `
                             <div class="achievements">
                                 <h4 class="achievements-title">Key Achievements:</h4>
                                 <ul class="achievements-list">
-                                    ${job.achievements.map(achievement => `
+                                    ${job.achievements
+                                      .map(
+                                        (achievement) => `
                                         <li>${achievement}</li>
-                                    `).join('')}
+                                    `
+                                      )
+                                      .join("")}
                                 </ul>
                             </div>
                             <div class="job-technologies">
-                                <strong>Technologies:</strong> ${job.technologies.join(', ')}
+                                <strong>Technologies:</strong> ${job.technologies.join(
+                                  ", "
+                                )}
                             </div>
-                        ` : ''}
+                        `
+                            : ""
+                        }
                     </div>
-                `).join('')}
+                `
+                  )
+                  .join("")}
             </section>
 
-            ${isFullResume ? `
+            ${
+              isFullResume
+                ? `
                 <!-- Featured Projects Section -->
                 <section class="resume-section">
                     <h2 class="section-title">Featured Projects</h2>
-                    ${projects.filter(p => p.featured).map(project => `
+                    ${projects
+                      .filter((p) => p.featured)
+                      .map(
+                        (project) => `
                         <div class="project-item">
                             <div class="project-header">
                                 <h3 class="project-title">${project.title}</h3>
                             </div>
-                            <p class="project-description">${project.description}</p>
+                            <p class="project-description">${
+                              project.description
+                            }</p>
                             <div class="project-technologies">
-                                <strong>Technologies:</strong> ${project.technologies.join(', ')}
+                                <strong>Technologies:</strong> ${project.technologies.join(
+                                  ", "
+                                )}
                             </div>
                         </div>
-                    `).join('')}
+                    `
+                      )
+                      .join("")}
                 </section>
 
                 <!-- Education Section -->
                 <section class="resume-section">
                     <h2 class="section-title">Education</h2>
-                    ${education.map(edu => `
+                    ${education
+                      .map(
+                        (edu) => `
                         <div class="education-item">
                             <div class="education-header">
                                 <h3 class="degree">${edu.degree}</h3>
@@ -409,27 +513,37 @@ class DownloadManager {
                             <p class="school">${edu.school}</p>
                             <p class="gpa">GPA: ${edu.gpa}</p>
                         </div>
-                    `).join('')}
+                    `
+                      )
+                      .join("")}
                 </section>
 
                 <!-- Certifications Section -->
                 <section class="resume-section">
                     <h2 class="section-title">Certifications</h2>
                     <div class="certifications-grid">
-                        ${certifications.map(cert => `
+                        ${certifications
+                          .map(
+                            (cert) => `
                             <div class="certification-item">
                                 <h3 class="cert-name">${cert.name}</h3>
                                 <p class="cert-issuer">${cert.issuer} • ${cert.year}</p>
                                 <p class="cert-credential">ID: ${cert.credential}</p>
                             </div>
-                        `).join('')}
+                        `
+                          )
+                          .join("")}
                     </div>
                 </section>
-            ` : ''}
+            `
+                : ""
+            }
 
             <!-- Footer -->
             <footer class="resume-footer">
-                <p>Generated on ${new Date().toLocaleDateString()} • ${isFullResume ? 'Full Resume' : 'Resume Summary'}</p>
+                <p>Generated on ${new Date().toLocaleDateString()} • ${
+      isFullResume ? "Full Resume" : "Resume Summary"
+    }</p>
             </footer>
 
             <style>
@@ -517,10 +631,19 @@ class DownloadManager {
                     color: #374151;
                 }
 
-                .skill-list {
-                    display: flex;
-                    flex-wrap: wrap;
-                    gap: 5px;
+                .skill-list ul {
+                    margin: 0;
+                    padding-left: 1rem;
+                    list-style: none;
+                }
+
+                .skill-list li::before {
+                    content: "- ";
+                }
+
+                .skill-list li {
+                    font-size: 0.875rem;
+                    margin-bottom: 4px;
                 }
 
                 .skill-tag {
@@ -690,46 +813,46 @@ class DownloadManager {
             </style>
         </div>
         `;
-    }
+  }
 
-    // Save resume data as JSON backup
-    saveResumeData() {
-        try {
-            const dataStr = JSON.stringify(portfolioData, null, 2);
-            const dataBlob = new Blob([dataStr], { type: 'application/json' });
-            
-            const downloadLink = document.createElement('a');
-            downloadLink.href = URL.createObjectURL(dataBlob);
-            downloadLink.download = `${portfolioData.personal.name}_resume_data.json`;
-            
-            document.body.appendChild(downloadLink);
-            downloadLink.click();
-            document.body.removeChild(downloadLink);
-            
-            // Clean up the blob URL
-            URL.revokeObjectURL(downloadLink.href);
-            
-            console.log('Resume data saved as JSON');
-        } catch (error) {
-            console.error('Error saving resume data:', error);
-            alert('Error saving resume data. Please try again.');
-        }
+  // Save resume data as JSON backup
+  saveResumeData() {
+    try {
+      const dataStr = JSON.stringify(portfolioData, null, 2);
+      const dataBlob = new Blob([dataStr], { type: "application/json" });
+
+      const downloadLink = document.createElement("a");
+      downloadLink.href = URL.createObjectURL(dataBlob);
+      downloadLink.download = `${portfolioData.personal.name}_resume_data.json`;
+
+      document.body.appendChild(downloadLink);
+      downloadLink.click();
+      document.body.removeChild(downloadLink);
+
+      // Clean up the blob URL
+      URL.revokeObjectURL(downloadLink.href);
+
+      console.log("Resume data saved as JSON");
+    } catch (error) {
+      console.error("Error saving resume data:", error);
+      alert("Error saving resume data. Please try again.");
     }
+  }
 }
 
 // Initialize download manager when DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
-    const downloadManager = new DownloadManager();
-    
-    // Make it globally available for debugging
-    window.downloadManager = downloadManager;
-    
-    console.log('Download manager ready');
+document.addEventListener("DOMContentLoaded", () => {
+  const downloadManager = new DownloadManager();
+
+  // Make it globally available for debugging
+  window.downloadManager = downloadManager;
+
+  console.log("Download manager ready");
 });
 
 // Analytics for download usage
 function trackDownloadUsage(type) {
-    console.log('Download usage tracked:', type);
-    // In production, send to analytics service
-    // gtag('event', 'download_resume', { 'resume_type': type });
+  console.log("Download usage tracked:", type);
+  // In production, send to analytics service
+  // gtag('event', 'download_resume', { 'resume_type': type });
 }
