@@ -234,35 +234,35 @@
             <!-- Buttons on large screen -->
             <div class="hidden sm:flex space-x-4">
                 <button id="printFullBtn"
-                    class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors">
+                    class="border border-blue-600 text-blue-600 px-6 py-3 rounded-lg hover:bg-blue-600 hover:text-white transition-colors">
                     <i class="fas fa-file-alt mr-2"></i>Full Resume
                 </button>
                 <button id="printSummaryBtn"
-                    class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors">
+                    class="border border-green-600 text-green-600 px-6 py-3 rounded-lg hover:bg-green-600 hover:text-white transition-colors">
                     <i class="fas fa-file-contract mr-2"></i>Summary Only
                 </button>
                 <button id="closePrintModal"
-                    class="bg-gray-600 text-white px-6 py-3 rounded-lg hover:bg-gray-700 transition-colors">
-                    Cancel
+                    class="border border-red-600 text-red-600 px-6 py-3 rounded-lg hover:bg-red-600 hover:text-white transition-colors">
+                    <i class="fas fa-times mr-2"></i>Cancel
                 </button>
             </div>
 
             <!-- Buttons on mobile -->
             <div class="flex flex-col sm:hidden space-y-4">
-                <div class="flex space-x-4">
+                <div class="grid grid-cols-1 gap-4">
                     <button id="printFullBtnMobile"
-                        class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors flex-1">
+                        class="border border-blue-600 text-blue-600 px-6 py-3 rounded-lg hover:bg-blue-600 hover:text-white transition-colors flex-1">
                         <i class="fas fa-file-alt mr-2"></i>Full Resume
                     </button>
                     <button id="printSummaryBtnMobile"
-                        class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors flex-1">
+                        class="border border-green-600 text-green-600 px-6 py-3 rounded-lg hover:bg-green-600 hover:text-white transition-colors flex-1">
                         <i class="fas fa-file-contract mr-2"></i>Summary Only
                     </button>
                 </div>
                 <div class="flex justify-end">
-                    <button id="closePrintModalMobile"
-                        class="bg-gray-600 text-white px-6 py-3 rounded-lg hover:bg-gray-700 transition-colors">
-                        Cancel
+                    <button id="closePrintModalMobile" type="button"
+                        class="border border-red-600 text-red-600 px-6 py-3 rounded-lg hover:bg-red-600 hover:text-white transition-colors">
+                        <i class="fas fa-times mr-2"></i>Cancel
                     </button>
                 </div>
             </div>
